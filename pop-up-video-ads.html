@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>短视频广告弹窗效果</title>
+	<style>
+	    #videoAd__wrapper {
+	    	display: none;
+			position: fixed;
+			width: 640px;
+			height: 390px;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			margin: auto;
+			z-index: 10001;
+	    }
+	    #videoAd__title {
+			background: #000;
+			line-height: 2em;
+			margin: 0;
+			color: #fff;
+			text-align: center;
+	    }
+	    #videoAd__close {
+			position: absolute;
+			right: 4px;
+			top: -3px;
+			font-size: 30px;
+			cursor: pointer;
+	    }
+	    #videoAd {
+			width: 640px;
+			height: 360px;
+	    }
+	    .mask {
+			width: 100%;
+			background: rgba(0, 0, 0, 0.7);
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 10000;
+	    }
+	    #videoAd__content {
+			height: 360px;
+			background: #000;
+	    }
+	    #videoAd__ending {
+			width: 100%;
+			height: 360px;
+			position: relative;
+			background: #000;
+			display: none;
+			overflow: hidden;
+	    }
+	     #videoAd__ending img {
+	     	width: 100%;
+	     }
+	     #videoAd__btn {
+			display: block;
+			width: 150px;
+			text-align: center;
+			color: #fff;
+			border-radius: 5px;
+			line-height: 60px;
+			background: #FE8B15;
+			font-size: 24px;
+			position: absolute;
+	     }
+	     #videoAd__btn:hover {
+	       	background: #e27100;
+	     }
+	  </style>
+</head>
+<body>
+<div id="videoAd__wrapper">
+    <p id="videoAd__title">15秒短视频广告 <span id="videoAd__close" title="关闭">×</span></p>
+    <div id="videoAd__content">
+		<video id="videoAd" src="./assets/video-demo.mp4" width="640" height="360" controls="controls" controlslist="nodownload" preload>
+			您的浏览器版本过低，无法播放该视频！
+		</video>
+		<div id="videoAd__ending">
+			<!-- 播放完毕后展示的自定义HTML内容 -->
+			<img src="./assets/pop-up-video-ad.jpg" alt="">
+			<a href="#">
+				<span id="videoAd__btn" style="left: 300px; bottom: 70px;">了解更多</span>
+			</a>
+		</div>
+    </div>
+</div>
+	
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+function showMaskDetail() {
+	$("#videoAd__wrapper").fadeIn(400);
+	var totHeight = $(document).height();
+	$("body").append('<div class="mask"></div>');
+	$(".mask").css("height", totHeight).show();
+
+	$("#videoAd__close").click(function () {
+		$("#videoAd__wrapper").remove();
+		$(".mask").remove();
+	});
+	$("#videoAd")[0].onended = function(){
+		$("#videoAd").hide();
+		$("#videoAd__ending").show();
+	}
+}
+function setMaskCookie() {
+	var now = new Date();
+	now.setTime(now.getTime() + 24 * 3600 * 1000);
+	document.cookie = "video_mask=on; expires=" + now.toUTCString() + "; path=/";
+}
+
+if(document.cookie.indexOf("video_mask") !== -1) {
+	alert("今天已经显示过了。 Cookie信息为：" + document.cookie);
+} else {
+	showMaskDetail();
+	setMaskCookie();
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片广告弹窗效果</title>
+	<style>
+	    #imageAd__wrapper {
+	    	display: none;
+			position: fixed;
+			width: 640px;
+			height: 480px;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			margin: auto;
+			z-index: 10001;
+	    }
+	    #imageAd__close {
+			position: absolute;
+			right: -5px;
+			top: -5px;
+			cursor: pointer;
+			background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUFFNkYzQTJENTk2MTFFNzkyQTBGN0ZDM0JBRTYxQzQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUFFNkYzQTNENTk2MTFFNzkyQTBGN0ZDM0JBRTYxQzQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpBQUU2RjNBMEQ1OTYxMUU3OTJBMEY3RkMzQkFFNjFDNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBQUU2RjNBMUQ1OTYxMUU3OTJBMEY3RkMzQkFFNjFDNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpXVhBkAAABsUExURQAAAP////7+/lVAPkc6NFdDQTxDVl5tf1lFRFZHSVVmdfn5+U1dbzkvK1FidAICBFFfcOjm5F5NSVJbalNic1hCQEFGW/r69Pr6+VpGRFxIRj1GWOng2wECA+vk3wEBAkpVYklTYUc6NUM2MemfcPMAAABtSURBVHjaYmAYBEBaCEzJKyihirMxMnKAaBFGOV5kcTFGRkYJUQYGPiZGRkEWhDg/O1CCUZxTmAlESyJr4QILgQC3FKolAjAJVnRn8UDEmRmIlcBlFA7LcTsXlweRg0SGF2sgyioqD4YoBQgwAP7FBEOSeUryAAAAAElFTkSuQmCC) no-repeat center;
+			width: 24px;
+			height: 24px;
+			border-radius: 50%;
+	    }
+	    #imageAd__mask {
+			width: 100%;
+			background: rgba(0, 0, 0, 0.7);
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 10000;
+	    }
+	    #imageAd__content {
+	    	width: 100%;
+	    	height: 100%;
+	    	overflow: hidden;
+	    }
+	    #imageAd__content img {
+	    	width: 100%;
+	    }
+	  </style>
+</head>
+<body>
+<div id="imageAd__wrapper">
+	<div id="imageAd__content">
+		<a href="#" target="_blank" title="了解详情">
+			<img src="./assets/pop-up-image-ad.jpg" alt="">
+		</a>
+		<span id="imageAd__close" title="关闭"></span>
+	</div>
+</div>
+	
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+function showMaskDetail(){
+	$("#imageAd__wrapper").fadeIn(400);
+	var totHeight = $(document).height();
+	$("body").append('<div id="imageAd__mask"></div>');
+	$("#imageAd__mask").css("height", totHeight).show();
+
+	$("#imageAd__close").click(function () {
+		$("#imageAd__wrapper").remove();
+		$("#imageAd__mask").remove();
+	});
+}
+function setMaskCookie() {
+	var now = new Date();
+	now.setTime(now.getTime() + 24 * 3600 * 1000);
+	document.cookie = "image_mask=on; expires=" + now.toUTCString() + "; path=/";
+}
+
+if(document.cookie.indexOf("image_mask") !== -1) {
+	alert("今天已经显示过了。 Cookie信息为：" + document.cookie);
+} else {
+	showMaskDetail();
+	setMaskCookie();
+}
+</script>
+
+</body>
+</html>
